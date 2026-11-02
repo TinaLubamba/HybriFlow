@@ -84,8 +84,7 @@ The cache is on by default, so after the first run (which reads every file) late
 
 ## Follow-up analysis
 
-For studies in which every woman is followed over several visits, HybriFlow judges each baseline genotype separately: it **persisted** if it is detected at baseline and at every follow-up visit, **cleared** if it is not detected at one or more follow-up visits (even if it is detected again later), and a genotype that was absent at baseline but detected at any follow-up visit was **acquired**. Combining these three flags gives six mutually exclusive categories: persist only, clear only, persist + clear, persist + acquire, clear + acquire, and persist + clear + acquire. "Persist any", "clear any" and "acquire any" are reported as overlapping summaries.
-
+For studies in which every woman is followed over several visits, HybriFlow judges each baseline genotype separately: it **persisted** if it is detected at baseline and at every follow-up visit, **cleared** if it is not detected at one or more follow-up visits (even if it is detected again later), and a genotype that was absent at baseline but detected at any follow-up visit was **acquired**. Combining these three flags gives six mutually exclusive categories: persist only, clear only, persist + clear, persist + acquire, clear + acquire, and persist + clear + acquire.
 The number of study visits (baseline plus follow-ups) is a setting, so cohorts with a different design need no code changes:
 
 ```r
