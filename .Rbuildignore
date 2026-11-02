@@ -1,0 +1,11 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^README\.Rmd$
+^\.github$
+^HybriFlow_Output$
+^HybriFlow_Output\.zip$
+^HybriFlow_Cache$
+^data-raw$
+^docs$
+^CITATION\.cff$
+^\.gitignore$

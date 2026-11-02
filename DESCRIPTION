@@ -1,0 +1,47 @@
+Package: HybriFlow
+Type: Package
+Title: Processing, Quality Control and Follow-Up Analysis of HybriSpot HPV Genotyping Results
+Version: 0.3.0
+Authors@R: 
+    person("Tina", "Lubamba", , "26975300@sun.ac.za", role = c("aut", "cre", "cph"))
+Description: Turns the raw per-sample Excel probe files and PDF reports produced
+    by the HybriSpot HPV genotyping platform into a single, quality-controlled
+    sample database. The package links each Excel file to its PDF report, calls
+    genotype results, evaluates hybridisation, amplification and no-template
+    controls, flags discordant probe positions and repeated samples, extracts
+    reagent lot numbers and dates from the PDF reports, and checks that the
+    Excel-derived and PDF-reported HPV status agree. For longitudinal studies it
+    classifies each participant by what happened to her baseline genotypes
+    (persisted, cleared, newly acquired, or a combination of these) and produces
+    genotype-level persistence, clearance and acquisition figures, an Excel
+    workbook and an HTML report. HybriFlow is an independent tool and is not developed, endorsed or supported by the manufacturer of the HybriSpot platform.
+License: MIT + file LICENSE
+URL: https://github.com/TinaLubamba/HybriFlow,
+    https://tinalubamba.github.io/HybriFlow/
+BugReports: https://github.com/TinaLubamba/HybriFlow/issues
+Encoding: UTF-8
+Depends: R (>= 4.1.0)
+Imports:
+    dplyr (>= 1.1.0),
+    DT,
+    ggplot2,
+    htmltools,
+    htmlwidgets,
+    openxlsx,
+    pdftools,
+    purrr,
+    readxl,
+    scales,
+    stats,
+    stringr,
+    tibble,
+    tidyr,
+    tools,
+    utils,
+    zip
+Suggests: 
+    rstudioapi,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
+Config/roxygen2/version: 8.1.1

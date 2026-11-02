@@ -1,0 +1,23 @@
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+.DS_Store
+
+# Package outputs and caches: never commit these (they can contain patient data)
+HybriFlow_Output/
+HybriFlow_Output.zip
+HybriFlow_Cache/
+followup_figures/
+*.tar.gz
+*.Rcheck/
+
+# Data files
+*.xlsx
+*.xls
+*.pdf
+
+!inst/extdata/
+!inst/extdata/mock_data/
+!inst/extdata/mock_data/**

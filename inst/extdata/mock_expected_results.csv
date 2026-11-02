@@ -1,0 +1,17 @@
+file,sample_id,participant,visit,intended_qc,intended_hpv_status,genotypes_positive,genotypes_discordant,pdf_report,scenario
+run_01/20250210_01_AM.xlsx,100-00-0001-0001_1-001-0_20240115,0001,1,PASS,POSITIVE,16,,yes (wording ASSUMED),HPV16 positive at visit 1
+run_01/20250210_02_AM.xlsx,100-00-0001-0001_1-010-0_20240415,0001,2,PASS,POSITIVE,16,,yes (wording ASSUMED),HPV16 still positive
+run_01/20250210_03_AM.xlsx,100-00-0001-0001_1-019-0_20240715,0001,3,PASS,NEGATIVE,,,yes (wording from a real report),HPV negative; HPV16 cleared
+run_01/20250210_04_AM.xlsx,100-00-0002-0002_1-001-0_20240115,0002,1,PASS,POSITIVE,16;52,,yes (wording ASSUMED),Two high-risk genotypes (multiple infection)
+run_01/20250210_05_AM.xlsx,100-00-0002-0002_1-010-0_20240415,0002,2,PASS,POSITIVE,16;52,,yes (wording ASSUMED),Both persist
+run_01/20250210_06_AM.xlsx,100-00-0002-0002_1-019-0_20240715,0002,3,PASS,POSITIVE,16;52,,no (deliberately missing),Both persist; deliberately NO PDF (missing-report case)
+run_01/20250210_07_AM.xlsx,100-00-0003-0003_1-001-0_20240115,0003,1,PASS,POSITIVE,31;6,,yes (wording ASSUMED),High-risk 31 plus low-risk 6
+run_01/20250210_08_AM.xlsx,100-00-0003-0003_1-010-0_20240415,0003,2,PASS,POSITIVE,31;51,,yes (wording ASSUMED),6 cleared; 51 newly detected
+run_02/20250211_01_PM.xlsx,100-00-0003-0003_1-019-0_20240715,0003,3,PASS,POSITIVE,31;51,,no (deliberately missing),31 persists; 51 persists; deliberately NO PDF (missing-report case)
+run_02/20250211_02_PM.xlsx,100-00-0004-0004_1-001-0_20240115,0004,1,PASS,POSITIVE,18,,yes (wording ASSUMED),HPV18 positive at visit 1
+run_02/20250211_03_PM.xlsx,100-00-0004-0004_1-010-0_20240415,0004,2,PASS,NEGATIVE,,18,yes (wording from a real report),HPV18 DISCORDANT (one duplicate spot positive); software reports negative
+run_02/20250211_04_PM.xlsx,100-00-0004-0004_1-010-0_20240415-1,0004,2,PASS,POSITIVE,18,,yes (wording ASSUMED),REPEAT of the discordant sample; 18 now positive on both spots
+run_02/20250211_05_PM.xlsx,100-00-0004-0004_1-019-0_20240715,0004,3,PASS,POSITIVE,18,,yes (wording ASSUMED),HPV18 positive
+run_02/20250211_06_PM.xlsx,100-00-0005-0005_1-001-0_20240115,0005,1,FAIL,BLANK,,,yes (wording ASSUMED),Amplification controls negative: insufficient material (BLANK)
+run_02/20250211_07_PM.xlsx,100-00-0006-0006_1-001-0_20240115,0006,1,FAIL,QC fail (hybridisation controls),16,,no (deliberately missing),Hybridisation controls negative: QC failure; deliberately NO PDF
+run_02/20250211_08_PM.xlsx,100-00-0007-0007_1-001-0_20240115,0007,1,PASS,NEGATIVE,,,yes (wording from a real report),"HPV negative, QC pass"

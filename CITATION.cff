@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use HybriFlow, please cite it as below."
+title: "HybriFlow: Processing, Quality Control and Follow-Up Analysis of HybriSpot HPV Genotyping Results"
+version: 0.3.0
+authors:
+  - family-names: Lubamba
+    given-names: Tina
+    email: 26975300@sun.ac.za
+repository-code: "https://github.com/TinaLubamba/HybriFlow"
+license: MIT

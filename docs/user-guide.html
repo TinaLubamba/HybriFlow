@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HybriFlow Database | User Guide</title>
+
+<style>
+:root {
+  --navy: #16324f;
+  --teal: #087e8b;
+  --pale: #eaf5f6;
+  --ink: #263746;
+  --muted: #607080;
+  --border: #dce5eb;
+  --paper: #ffffff;
+  --bg: #f4f7fa;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.65; }
+header { padding: 38px 24px; color: white; background: linear-gradient(125deg, #16324f, #087e8b); }
+.header-inner { max-width: 1180px; margin: auto; }
+header h1 { font-size: clamp(27px, 4vw, 42px); margin: 8px 0; line-height: 1.2; }
+header p { max-width: 720px; }
+.eyebrow { text-transform: uppercase; letter-spacing: 2px; font-size: 12px; font-weight: bold; }
+.layout { max-width: 1180px; margin: 26px auto; padding: 0 18px; display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 24px; align-items: start; }
+nav { position: sticky; top: 15px; background: var(--paper); border: 1px solid var(--border); border-radius: 14px; padding: 18px; }
+nav h2 { font-size: 15px; margin-top: 0; }
+nav a { display: block; color: var(--ink); text-decoration: none; padding: 9px 10px; margin: 3px 0; border-radius: 7px; font-size: 14px; }
+nav a:hover, nav a.active { background: var(--pale); color: var(--teal); }
+main { min-width: 0; }
+section, .intro-card { background: var(--paper); border: 1px solid var(--border); border-radius: 14px; padding: clamp(18px, 3vw, 30px); margin-bottom: 20px; scroll-margin-top: 18px; }
+h2 { color: var(--navy); margin-top: 0; }
+h3 { color: var(--teal); margin-top: 24px; }
+p { overflow-wrap: anywhere; }
+.muted { color: var(--muted); }
+.callout { border-left: 4px solid var(--teal); background: var(--pale); padding: 13px 16px; border-radius: 5px; margin: 18px 0; }
+.warning { border-left-color: #b7791f; background: #fff8e8; }
+.steps { list-style: none; padding: 0; counter-reset: step; }
+.steps li { counter-increment: step; padding: 12px 12px 12px 52px; margin: 10px 0; position: relative; background: #f7f9fb; border-radius: 9px; }
+.steps li::before { content: counter(step); position: absolute; left: 13px; top: 13px; width: 27px; height: 27px; display: grid; place-items: center; border-radius: 50%; background: var(--teal); color: white; font-weight: bold; }
+.checklist label { display: flex; gap: 10px; align-items: flex-start; margin: 12px 0; cursor: pointer; }
+.checklist input { margin-top: 6px; }
+button, .button { border: 0; border-radius: 7px; background: var(--teal); color: white; padding: 10px 15px; cursor: pointer; font-size: 14px; text-decoration: none; }
+button:hover, .button:hover { filter: brightness(.92); }
+.secondary { color: var(--navy); background: #e9eff4; }
+.search { width: 100%; padding: 13px 14px; border: 1px solid var(--border); border-radius: 9px; font-size: 15px; margin: 10px 0 20px; }
+.shot { margin: 18px 0; padding: 12px; border: 1px dashed #aabcc8; border-radius: 10px; background: #fafcfd; }
+.shot img { width: 100%; height: auto; display: block; border-radius: 6px; cursor: zoom-in; }
+.shot figcaption { font-size: 13px; color: var(--muted); margin-top: 8px; }
+.missing { padding: 22px; text-align: center; color: var(--muted); background: #edf2f6; border-radius: 6px; }
+table { border-collapse: collapse; width: 100%; margin: 14px 0; font-size: 14px; }
+th, td { border: 1px solid var(--border); padding: 10px; text-align: left; vertical-align: top; }
+th { background: var(--pale); }
+.sw { display: inline-block; padding: 2px 12px; border-radius: 4px; font-weight: bold; font-size: 13px; color: #fff; white-space: nowrap; }
+code { background: #eef2f6; padding: 1px 6px; border-radius: 4px; font-size: .92em; }
+details { border: 1px solid var(--border); border-radius: 8px; padding: 13px 15px; margin: 10px 0; }
+summary { cursor: pointer; color: var(--navy); font-weight: 600; }
+.progress-track { height: 8px; background: #e3eaf0; border-radius: 10px; overflow: hidden; margin: 12px 0; }
+#progress-bar { height: 100%; width: 0; background: var(--teal); transition: width .2s; }
+footer { text-align: center; color: var(--muted); padding: 30px 16px; }
+#image-modal { display: none; position: fixed; inset: 0; background: rgba(12, 25, 39, .9); z-index: 100; padding: 25px; align-items: center; justify-content: center; overflow: auto; }
+#image-modal img { max-width: 95%; max-height: 85vh; }
+#image-modal button { position: absolute; top: 15px; right: 20px; }
+@media(max-width: 760px) { .layout { grid-template-columns: 1fr; } nav { position: static; } nav a { display: inline-block; } table { display: block; overflow-x: auto; } }
+@media print { nav, button, .search, .progress-track { display: none !important; } .layout { display: block; } section, .intro-card { break-inside: avoid; } body { background: white; } }
+</style>
+</head>
+
+<body>
+<header>
+  <div class="header-inner">
+    <div class="eyebrow">Research software documentation</div>
+    <h1>HybriFlow Database</h1>
+    <p>User guide: how to move around the database, find a sample, read the HPV
+    results, and understand the quality-control information.</p>
+    <p><strong>Guide version:</strong> 1.0 | <strong>Updated:</strong> <span id="guide-date"></span></p>
+    <button onclick="window.print()" class="secondary">Print / Save as PDF</button>
+  </div>
+</header>
+
+<div class="layout">
+<nav aria-label="Guide navigation">
+  <h2>In this guide</h2>
+  <a href="#welcome">Welcome</a>
+  <a href="#navigation">1. The page and its buttons</a>
+  <a href="#samples">2. Finding a sample</a>
+  <a href="#hpv">3. HPV results</a>
+  <a href="#colours">4. Colours and column map</a>
+  <a href="#qc">5. Quality control</a>
+  <a href="#traceability">6. Repeats, lots and files</a>
+  <a href="#troubleshooting">7. Troubleshooting</a>
+  <a href="#checklist">Checklist</a>
+  <hr>
+  <label for="guide-search"><strong>Search this guide</strong></label>
+  <input class="search" id="guide-search" type="search" placeholder="Search topics..." aria-label="Search user guide">
+  <button class="secondary" onclick="clearSearch()">Clear search</button>
+  <p class="muted" id="search-status" aria-live="polite"></p>
+  <hr>
+  <button onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to top</button>
+</nav>
+
+<main id="guide-content">
+
+<div class="intro-card" id="welcome">
+  <h2>Welcome to the database</h2>
+  <p>The HybriFlow database is a single web page (<code>final_database.html</code>) made by the
+  HybriFlow package. It has <strong>one row for every sample</strong> that was tested on the HybriSpot
+  HPV genotyping platform. For each sample it shows the HPV genotype results, the quality-control checks,
+  the result printed on the PDF report, the kit lot numbers, and links to the original files.</p>
+  <p>It opens in any web browser. It does not need R or an internet connection, and you cannot change
+  or delete any data in it. You can only look, search, filter, sort and export.</p>
+  <div class="callout">
+    <strong>The pictures in this guide</strong> are illustrations drawn with made-up (synthetic) samples.
+    Your database looks the same but shows your own samples. Click any picture to enlarge it.
+  </div>
+  <h3>What you will learn</h3>
+  <ul>
+    <li>What each button on the page does.</li>
+    <li>How to find a sample, and how to filter, sort and export rows.</li>
+    <li>How to read the HPV result columns and the colours.</li>
+    <li>How to tell whether a result can be trusted, and what to do when it cannot.</li>
+  </ul>
+</div>
+
+<section id="navigation" class="guide-section">
+  <h2>1. The page and its buttons</h2>
+  <p>The page has three parts: a row of coloured buttons at the top, the table controls, and the table itself.</p>
+
+  <figure class="shot">
+    <img src="guide_screenshots/database-home.png" alt="The database home page with numbered markers" data-placeholder="Screenshot 1: database home page">
+    <figcaption>Figure 1. The database page. (1) Buttons that open other files. (2) Export buttons. (3) Search box.
+    (4) Coloured column headers. (5) Filter boxes. (6) A pink row. (7) Row count and page buttons.</figcaption>
+  </figure>
+
+  <h3>The coloured buttons at the top</h3>
+  <p>These open other files from the same run. They work when the files are in the same folder as this page.</p>
+  <figure class="shot">
+    <img src="guide_screenshots/top-buttons.png" alt="The five buttons at the top of the page" data-placeholder="Screenshot 2: top buttons">
+    <figcaption>Figure 2. The buttons at the top of the page.</figcaption>
+  </figure>
+  <table>
+    <thead><tr><th></th><th>Button</th><th>What it opens</th></tr></thead>
+    <tbody>
+      <tr><td><strong>A</strong></td><td>Open Main Database Excel</td><td><code>final_database.xlsx</code>: the same database as an Excel workbook.</td></tr>
+      <tr><td><strong>B</strong></td><td>Open QC-Passed Database</td><td><code>final_database_QC_passed.xlsx</code>: only samples that passed quality control, with repeated samples handled as chosen when the pipeline was run.</td></tr>
+      <tr><td><strong>C</strong></td><td>Open Follow-up Analysis</td><td><code>followup_analysis.html</code>: what happened to each woman's baseline HPV genotypes (persisted, cleared or newly acquired), with figures and tables. Appears only if the follow-up analysis was run.</td></tr>
+      <tr><td><strong>D</strong></td><td>Open Follow-up Database</td><td><code>followup_database.xlsx</code>: one row per woman. Appears only if the follow-up analysis was run.</td></tr>
+      <tr><td><strong>E</strong></td><td>Open Run Summary</td><td><code>run_summary.txt</code>: counts of samples, QC results, HPV prevalence and the files that were excluded.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The table controls</h3>
+  <figure class="shot">
+    <img src="guide_screenshots/table-controls.png" alt="Export buttons, search box, sort arrows and filter boxes" data-placeholder="Screenshot 3: table controls">
+    <figcaption>Figure 3. Table controls. (1) Copy, CSV, Excel and Print. (2) Search. (3) Sort arrows. (4) Filter boxes.</figcaption>
+  </figure>
+  <ol class="steps">
+    <li><strong>Copy, CSV, Excel, Print.</strong> Export the rows that match your current search and filters, from <em>all</em> pages (not only the page you are looking at). With no filter, every row is exported.</li>
+    <li><strong>Search.</strong> Looks in every column at once.</li>
+    <li><strong>Sort arrows.</strong> Click the small arrows in a column header to sort by that column. Click again to reverse the order.</li>
+    <li><strong>Filter boxes.</strong> The empty box under each column name filters that column only.</li>
+  </ol>
+  <div class="callout">
+    The table is wider than most screens. <strong>Scroll sideways</strong> (or use the horizontal scroll bar under the table) to see all columns.
+  </div>
+  <div class="callout warning">
+    Do not rely on a button's colour to guess what it does. Hold the pointer over it, or read the table above,
+    before you use it.
+  </div>
+</section>
+
+<section id="samples" class="guide-section">
+  <h2>2. Finding a sample</h2>
+  <figure class="shot">
+    <img src="guide_screenshots/sample-records.png" alt="Table filtered by Sample ID" data-placeholder="Screenshot 4: filtering by Sample ID">
+    <figcaption>Figure 4. Filtering by Sample ID. (A) Type the ID in the filter box under <code>Sample_ID</code>. (B) The line at the bottom shows how many rows match.</figcaption>
+  </figure>
+  <ol class="steps">
+    <li>Click the filter box under <code>Sample_ID</code> (first column) and type the whole ID or part of it, for example <code>100-00-0001</code>.</li>
+    <li>The table shrinks to the matching rows. The line under the table tells you how many rows match out of the total.</li>
+    <li>Check the full <code>Sample_ID</code> on the row before you read any result.</li>
+    <li>To go back to all rows, delete the text in the filter box.</li>
+  </ol>
+  <h3>Useful filters</h3>
+  <table>
+    <thead><tr><th>To see...</th><th>Type this in the filter box under...</th></tr></thead>
+    <tbody>
+      <tr><td>All samples that failed quality control</td><td><code>Overall_QC_Status</code>: <code>FAIL</code></td></tr>
+      <tr><td>All samples with discordant probes</td><td><code>Discordant</code>: <code>YES</code></td></tr>
+      <tr><td>All samples where HPV 16 was detected</td><td><code>HPV_16</code>: <code>POSITIVE</code></td></tr>
+      <tr><td>All samples from one year</td><td><code>Visit_Year</code> (a column near the right end): for example <code>2024</code></td></tr>
+      <tr><td>Samples with a repeat</td><td><code>Repeat_Comments</code>: <code>REPEAT</code> or <code>Original</code></td></tr>
+    </tbody>
+  </table>
+  <p>You can use several filters, and the Search box, at the same time.</p>
+  <div class="callout">
+    <strong>Good practice:</strong> The Sample ID contains the sample number and the visit code or date
+    (for example <code>100-00-0001-0001_1-004-0_20240729</code>). Always read the whole ID before you
+    link a result to a participant or a visit.
+  </div>
+</section>
+
+<section id="hpv" class="guide-section">
+  <h2>3. Understanding HPV results</h2>
+  <figure class="shot">
+    <img src="guide_screenshots/hpv-results.png" alt="HPV result columns" data-placeholder="Screenshot 5: HPV results">
+    <figcaption>Figure 5. HPV result columns. (1) Universal probe. (2) A low-risk genotype column (blue header). (3) High-risk genotype columns (red header).
+    (4) HPV status from the PDF report. (5) Any HPV detected. (6) A positive genotype.</figcaption>
+  </figure>
+  <h3>What to read, in this order</h3>
+  <ol class="steps">
+    <li><strong>First check the quality control</strong> (section 5). Only read the HPV columns when the sample passed.</li>
+    <li><strong><code>HPV_Universal_Probe</code></strong> shows whether the test detected HPV DNA of any type.</li>
+    <li><strong>One column per genotype</strong> (<code>HPV_16</code>, <code>HPV_18</code>, ...). <code>POSITIVE</code> means every probe position for that genotype was positive. <code>NEGATIVE</code> means it was not detected, or its positions disagreed (see Discordant, section 5).</li>
+    <li><strong><code>Any_HPV_Detected</code>, <code>High_Risk_HPV_Detected</code>, <code>Low_Risk_HPV_Detected</code></strong> summarise the row as YES or NO. <code>High_Risk_Count</code>, <code>Low_Risk_Count</code> and <code>Total_HPV_Genotypes_Detected</code> give the number of genotypes found.</li>
+    <li><strong><code>HPV_Status</code> and <code>Report_Results</code></strong> show what the PDF report says (POSITIVE, NEGATIVE or BLANK, and its text).</li>
+  </ol>
+  <div class="callout">
+    <strong>HPV detected, but no genotype:</strong> if <code>HPV_Universal_Probe</code> is POSITIVE and no genotype column is POSITIVE,
+    HPV was detected but its genotype was not determined. The PDF text says "Genotype not determined".
+    Do not count this sample as negative.
+  </div>
+  <div class="callout">
+    <strong>Where is HPV 6?</strong> The genotype columns are sorted as text, not as numbers: <code>HPV_11, HPV_16, HPV_18, HPV_26, ...</code>
+    and then <code>HPV_6</code> and <code>HPV_61</code> after <code>HPV_59</code>. Use the filter boxes or scroll sideways to find a genotype.
+  </div>
+  <div class="callout warning">
+    A detected HPV genotype, or a high-risk classification, is a laboratory result. It is not by itself a diagnosis
+    of cervical disease or cancer. Interpret results within the approved study protocol and clinical context.
+  </div>
+</section>
+
+<section id="colours" class="guide-section">
+  <h2>4. Colours and column map</h2>
+  <h3>Header colours</h3>
+  <table>
+    <thead><tr><th>Colour</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><span class="sw" style="background:#000">Black</span></td><td>Information columns: sample ID, quality control, summaries, PDF report details, lot numbers, comments and file links.</td></tr>
+      <tr><td><span class="sw" style="background:#FF0000">Red</span></td><td>High-risk genotypes (for example 16, 18, 31, 33, 45, 52, 58).</td></tr>
+      <tr><td><span class="sw" style="background:#4472C4">Blue</span></td><td>Low-risk genotypes (for example 6, 11, 40, 42).</td></tr>
+      <tr><td><span class="sw" style="background:#ffffff;color:#222;border:1px solid #bbb">White</span></td><td><code>Visit_Date</code> and <code>Visit_Year</code>.</td></tr>
+    </tbody>
+  </table>
+  <h3>Row colours</h3>
+  <table>
+    <tbody>
+      <tr><td style="width:150px;background:#F9C0C8"><strong>Pink row</strong></td><td>The sample <strong>failed quality control</strong> or is <strong>discordant</strong>. Look at these rows first. Pale grey and white rows are normal rows.</td></tr>
+    </tbody>
+  </table>
+  <h3>Where to find what</h3>
+  <table>
+    <thead><tr><th>You want to know...</th><th>Look at these columns</th></tr></thead>
+    <tbody>
+      <tr><td>Which sample and when</td><td><code>Sample_ID</code>, <code>Visit_Date</code>, <code>Visit_Year</code></td></tr>
+      <tr><td>Did the run work?</td><td><code>Positive_Control_Pass</code>, <code>NTC_Pass</code>, <code>Overall_QC_Status</code>, <code>Comments</code></td></tr>
+      <tr><td>Was HPV found, and which types?</td><td><code>HPV_Universal_Probe</code>, the <code>HPV_...</code> genotype columns, <code>Any_HPV_Detected</code>, <code>High_Risk_Count</code>, <code>Low_Risk_Count</code></td></tr>
+      <tr><td>Do the probes agree?</td><td><code>Discordant</code>, <code>Discordant_Comments</code></td></tr>
+      <tr><td>Does the PDF agree with the Excel data?</td><td><code>HPV_Status</code>, <code>Report_Results</code>, <code>Result_Consistency</code></td></tr>
+      <tr><td>Which kit batch was used?</td><td><code>PCR_Lot</code>, <code>Chips_Lot</code>, <code>Reagent_Lot</code> and their <code>_Expiry</code> columns</td></tr>
+      <tr><td>Is this a repeat?</td><td><code>Repeat_Comments</code></td></tr>
+      <tr><td>The original files</td><td><code>File</code>, <code>excel_path</code>, <code>pdf_path</code></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="qc" class="guide-section">
+  <h2>5. Understanding quality-control flags</h2>
+  <p>Quality-control information tells you whether a sample's result can be used.</p>
+  <figure class="shot">
+    <img src="guide_screenshots/quality-control.png" alt="Quality-control columns" data-placeholder="Screenshot 6: quality control">
+    <figcaption>Figure 6. Quality-control columns. (1) Positive_Control_Pass. (2) NTC_Pass. (3) Result_Consistency. (4) Overall_QC_Status. (5) Comments. (6) A failed sample shown in a pink row.</figcaption>
+  </figure>
+  <table>
+    <thead><tr><th>Column</th><th>What it tells you</th></tr></thead>
+    <tbody>
+      <tr><td><code>Positive_Control_Pass</code></td><td><code>YES</code> when the hybridisation and amplification controls both worked. <code>NO</code> means the run is not valid for this sample.</td></tr>
+      <tr><td><code>NTC_Pass</code></td><td><code>YES</code> when the no-template control stayed negative (no contamination signal).</td></tr>
+      <tr><td><code>Overall_QC_Status</code></td><td><code>PASS</code>, or <code>FAIL</code> with the reason (for example <code>FAIL - Control failure</code> or <code>FAIL - Insufficient genetic material</code>).</td></tr>
+      <tr><td><code>Result_Consistency</code></td><td>Compares the Excel result with the PDF report (below).</td></tr>
+      <tr><td><code>Comments</code></td><td>The suggested action, for example <em>Possible rerun</em>.</td></tr>
+    </tbody>
+  </table>
+  <h3>What to do for each outcome</h3>
+  <table>
+    <thead><tr><th>You see</th><th>What it means and what to do</th></tr></thead>
+    <tbody>
+      <tr><td><code>PASS</code></td><td>The controls worked. You can use the HPV columns. If the row is pink because it is discordant, read the next row of this table.</td></tr>
+      <tr><td><code>FAIL - Control failure</code></td><td>A control did not work. Do not rely on the genotype results. The comment says <em>Possible rerun</em>. Follow your study's repeat-testing procedure.</td></tr>
+      <tr><td><code>FAIL - Insufficient genetic material</code> (PDF says BLANK)</td><td>There was not enough DNA to test. A negative-looking row does <strong>not</strong> mean HPV-negative. The comment says <em>Possible false negative</em> and <em>Possible rerun</em>.</td></tr>
+      <tr><td><code>Discordant = YES</code></td><td>The probe positions of at least one genotype disagreed. That genotype is shown as NEGATIVE. See the next section.</td></tr>
+      <tr><td>Empty cell where a result should be</td><td>Check the PDF and Excel file (use the links, section 6). Never treat an empty result as negative.</td></tr>
+      <tr><td>A flag you do not recognise</td><td>Ask the person who maintains the pipeline before you interpret it.</td></tr>
+    </tbody>
+  </table>
+  <h3>Result_Consistency: does the PDF agree?</h3>
+  <table>
+    <thead><tr><th>Value</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><code>MATCH</code></td><td>The Excel result and the PDF report agree. This is what you expect.</td></tr>
+      <tr><td><code>MATCH - Universal probe positive only</code></td><td>The PDF says NEGATIVE but the universal probe was positive with no genotype. This does not invalidate a negative PDF result.</td></tr>
+      <tr><td><code>INCONCLUSIVE - Insufficient material</code></td><td>The PDF says BLANK. The result is not reliable.</td></tr>
+      <tr><td><code>CANNOT COMPARE</code></td><td>There is no PDF status for this sample.</td></tr>
+      <tr><td><code>MISMATCH</code></td><td>The Excel result and the PDF disagree. Open the PDF and check.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Discordant samples</h3>
+  <p>Every genotype is printed at one or two positions on the chip. If the positions of one genotype do not agree, the sample is <code>Discordant</code>,
+  that genotype is reported <code>NEGATIVE</code>, and the positions are listed in <code>Discordant_Comments</code>, for example <code>18: (4,1) POSITIVE, (8,5) NEGATIVE</code>.</p>
+  <figure class="shot">
+    <img src="guide_screenshots/discordant-samples.png" alt="A discordant sample" data-placeholder="Screenshot 7: discordant sample">
+    <figcaption>Figure 7. A discordant sample (filtered with <code>YES</code> under <code>Discordant</code>). (1) Discordant. (2) The genotype columns. (3) Which probe positions disagreed. (4) Suggested action.</figcaption>
+  </figure>
+  <p>Discordant samples that passed QC are marked <em>Review: discordant genotype result; possible false negative</em>. Review the original probe-level results and follow the study's repeat-testing protocol.</p>
+
+  <h3>Long comments and the pop-up</h3>
+  <p>Comments longer than 120 characters are cut off with "...". <strong>Rest the mouse pointer on the cell</strong> and a small box shows the whole comment.</p>
+  <figure class="shot">
+    <img src="guide_screenshots/comment-popup.png" alt="Hover pop-up with the full comment" data-placeholder="Screenshot 8: comment pop-up">
+    <figcaption>Figure 8. The pop-up with the full comment.</figcaption>
+  </figure>
+
+  <div class="callout warning">
+    <strong>Important:</strong> This guide explains the flags. It does not replace your study's protocol for deciding
+    what to do with an invalid or uncertain result.
+  </div>
+  <h3>QC review checklist</h3>
+  <div class="checklist">
+    <label><input type="checkbox"> Confirm the full Sample ID.</label>
+    <label><input type="checkbox"> Check <code>Overall_QC_Status</code> and the control columns.</label>
+    <label><input type="checkbox"> Read the <code>Comments</code> and hover over shortened ones.</label>
+    <label><input type="checkbox"> Check <code>Discordant</code> and <code>Result_Consistency</code>.</label>
+    <label><input type="checkbox"> Follow the study protocol before you decide how to handle an invalid or uncertain result.</label>
+  </div>
+</section>
+
+<section id="traceability" class="guide-section">
+  <h2>6. Repeats, kit lot numbers and source files</h2>
+  <h3>Repeated samples</h3>
+  <figure class="shot">
+    <img src="guide_screenshots/traceability.png" alt="Lot numbers and repeat comments" data-placeholder="Screenshot 9: lots and repeats">
+    <figcaption>Figure 9. Kit lot numbers (1), expiry date (2) and repeat comments (3). The Chips and Reagent columns work in the same way as the PCR columns.</figcaption>
+  </figure>
+  <p><code>Repeat_Comments</code> is filled in when the same sample was tested more than once. It says, for example,
+  <em>Original sample (2 total entries incl. repeats; processed 5/28/2025)</em> for the first test, and
+  <em>REPEAT #1 of sample ... (processed ...)</em> for a repeat. The main database keeps <strong>every</strong> entry.
+  Only the QC-passed Excel file removes repeats (as chosen when the pipeline was run).</p>
+  <h3>Kit lot numbers</h3>
+  <p>The PCR, chip and reagent lot numbers and expiry dates come from the PDF report. If a batch turns out to be faulty or expired,
+  filter the lot column to find every sample that used it.</p>
+  <h3>Opening the original files</h3>
+  <figure class="shot">
+    <img src="guide_screenshots/file-links.png" alt="Open Excel and Open PDF links" data-placeholder="Screenshot 10: file links">
+    <figcaption>Figure 10. (1) Open Excel opens the instrument's Excel file. (2) Open PDF opens the PDF report.</figcaption>
+  </figure>
+  <div class="callout warning">
+    <strong>These links only work on the computer where the pipeline was run.</strong> They point to the original files in
+    that computer's folders. On another computer, use the <code>File</code> column to find the PDF name and ask the
+    research team for the file.
+  </div>
+</section>
+
+<section id="troubleshooting" class="guide-section">
+  <h2>7. Troubleshooting</h2>
+  <details>
+    <summary>I cannot find a sample</summary>
+    <p>Check the spelling and try only a part of the ID, such as the first 12 characters. Remove all filters and clear the Search box.
+    If the sample is still missing, it may not have been processed: check <code>run_summary.txt</code> (button E) for excluded files.</p>
+  </details>
+  <details>
+    <summary>A result cell is empty</summary>
+    <p>Check the Excel file and the PDF using the links. An empty cell is not a negative result. If the sample has no PDF, <code>HPV_Status</code> is empty and <code>Result_Consistency</code> says CANNOT COMPARE.</p>
+  </details>
+  <details>
+    <summary>Visit_Date or Visit_Year is empty</summary>
+    <p>The date is read from the Sample ID. If the ID has no readable date, the cell stays empty (the pipeline does not guess).
+    These IDs are listed in <code>Sample_IDs_without_year.csv</code> in the output folder.</p>
+  </details>
+  <details>
+    <summary>A sample has a quality-control flag</summary>
+    <p>Read section 5 and follow your study's repeat-testing procedure. Record any review you do.</p>
+  </details>
+  <details>
+    <summary>I cannot find HPV 6 (or another genotype)</summary>
+    <p>Genotype columns are sorted as text, so <code>HPV_6</code> comes after <code>HPV_59</code>. Scroll sideways, or use the Search box.</p>
+  </details>
+  <details>
+    <summary>Open Excel / Open PDF does nothing</summary>
+    <p>The links only work on the computer where the pipeline was run and while the files are still in the same folders.</p>
+  </details>
+  <details>
+    <summary>A button at the top does nothing</summary>
+    <p>The buttons open files in the same folder as this page. Keep all files from the output folder together (or unzip the whole archive).
+    The follow-up buttons appear only when the follow-up analysis was run.</p>
+  </details>
+  <details>
+    <summary>A picture is missing from this guide</summary>
+    <p>Check that the image is in the <code>guide_screenshots</code> folder next to this file and that the file name matches.</p>
+  </details>
+</section>
+
+<section id="checklist" class="guide-section">
+  <h2>Completion checklist</h2>
+  <p>Use this checklist when you are learning the database.</p>
+  <div class="progress-track"><div id="progress-bar"></div></div>
+  <p id="progress-text" aria-live="polite">0 completed</p>
+  <div class="checklist" id="learning-checklist">
+    <label><input type="checkbox"> I know what the five buttons at the top open.</label>
+    <label><input type="checkbox"> I can find a sample by its Sample ID and filter a column.</label>
+    <label><input type="checkbox"> I can read the HPV genotype columns and the header colours.</label>
+    <label><input type="checkbox"> I can read <code>Overall_QC_Status</code> and know what to do when a sample fails.</label>
+    <label><input type="checkbox"> I know what a discordant sample is and where to read the details.</label>
+    <label><input type="checkbox"> I know where to find the lot numbers, repeats and original files.</label>
+  </div>
+  <button class="secondary" onclick="resetChecklist()">Reset checklist</button>
+</section>
+
+</main>
+</div>
+
+<footer>HybriFlow Database User Guide | Research documentation | Written for the database made by the HybriFlow package.</footer>
+
+<div id="image-modal" role="dialog" aria-label="Enlarged screenshot" aria-modal="true">
+  <button onclick="closeImage()">Close image</button>
+  <img id="modal-image" alt="Enlarged database screenshot">
+</div>
+
+<script>
+document.getElementById("guide-date").textContent = new Date().toLocaleDateString();
+
+function updateProgress() {
+  const boxes = document.querySelectorAll("#learning-checklist input[type=checkbox]");
+  const completed = [...boxes].filter(x => x.checked).length;
+  const total = boxes.length;
+  document.getElementById("progress-bar").style.width = (total ? completed / total * 100 : 0) + "%";
+  document.getElementById("progress-text").textContent = completed + " of " + total + " completed";
+}
+document.querySelectorAll("#learning-checklist input").forEach(box => box.addEventListener("change", updateProgress));
+function resetChecklist() {
+  document.querySelectorAll("#learning-checklist input").forEach(box => box.checked = false);
+  updateProgress();
+}
+
+const searchBox = document.getElementById("guide-search");
+searchBox.addEventListener("input", function() {
+  const query = this.value.trim().toLowerCase();
+  const sections = [...document.querySelectorAll("main > section, main > .intro-card")];
+  let matches = 0;
+  sections.forEach(section => {
+    const match = !query || section.innerText.toLowerCase().includes(query);
+    section.style.display = match ? "" : "none";
+    if (match) matches++;
+  });
+  document.getElementById("search-status").textContent = query ? matches + " matching sections" : "";
+});
+function clearSearch() { searchBox.value = ""; searchBox.dispatchEvent(new Event("input")); }
+
+document.querySelectorAll("nav a").forEach(link => {
+  link.addEventListener("click", function() {
+    document.querySelectorAll("nav a").forEach(a => a.classList.remove("active"));
+    this.classList.add("active");
+  });
+});
+
+document.querySelectorAll(".shot img").forEach(img => {
+  img.addEventListener("error", function() {
+    const placeholder = document.createElement("div");
+    placeholder.className = "missing";
+    placeholder.textContent = "Screenshot placeholder: " + (this.dataset.placeholder || this.alt) + ". Add the corresponding image to guide_screenshots.";
+    this.replaceWith(placeholder);
+  });
+  img.addEventListener("click", function() {
+    document.getElementById("modal-image").src = this.src;
+    document.getElementById("image-modal").style.display = "flex";
+  });
+});
+function closeImage() { document.getElementById("image-modal").style.display = "none"; }
+document.getElementById("image-modal").addEventListener("click", function(event) { if (event.target === this) closeImage(); });
+document.addEventListener("keydown", function(event) { if (event.key === "Escape") closeImage(); });
+updateProgress();
+</script>
+</body>
+</html>
